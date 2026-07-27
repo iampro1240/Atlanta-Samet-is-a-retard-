@@ -1262,6 +1262,10 @@
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. player.UserId .."&width=420&height=420&format=png"
 			end 
 
+			function cfg.add_bar(name, color, min, max, default)
+				items[name] = section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
+			end 
+
 			return setmetatable(cfg, library)
 		end     
 
