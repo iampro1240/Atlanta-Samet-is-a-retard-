@@ -1835,21 +1835,6 @@
 					end})
 			-- 
 					
-			-- esp preview
-				local holder = library:panel({
-					name = "ESP Preview", 
-					anchor_point = vec2(0, 0),
-					size = dim2(0, 300, 0, 325),
-					position = dim2(0, style.items.main_holder.AbsolutePosition.X, 0, style.items.main_holder.AbsolutePosition.Y + style.items.main_holder.AbsoluteSize.Y + 2),
-					image = "rbxassetid://92481398073007",
-				})  
-				
-				local items = holder.items
-				
-				local column = setmetatable(items, library):column() 
-				window.esp_section = column:section({name = "Main"})
-			--  
-
 
 
 			return setmetatable(window, library)
