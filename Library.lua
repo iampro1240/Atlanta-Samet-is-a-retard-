@@ -1243,6 +1243,12 @@
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Player: "})
 				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
+
+				function cfg.add_bar(name, color, min, max, default)
+					items.slider = section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
+				   --items.slider2 = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
+				   --section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
+			    end 
 				
 				library:create( "UIStroke" , {
 					Parent = items.InfoTitle
@@ -1262,9 +1268,8 @@
 				items.Profile.Image = "https://www.roblox.com/headshot-thumbnail/image?userId=".. player.UserId .."&width=420&height=420&format=png"
 			end 
 
-			function cfg.add_bar(name, color, min, max, default)
-				items[name] = section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
-			end 
+
+			--cfg.add_bar("Armor", rgb(0, 245, 0), 0, 1000, 1000)
 
 			return setmetatable(cfg, library)
 		end     
@@ -1675,7 +1680,7 @@
 					anchor_point = vec2(0, 0),
 					size = dim2(0, 394, 0, 464),
 					position = dim2(0, main_window.items.main_holder.AbsolutePosition.X + main_window.items.main_holder.AbsoluteSize.X + 2, 0, main_window.items.main_holder.AbsolutePosition.Y),
-					image = "rbxassetid://115194686863276",
+					image = "rbxassetid://113234034461805",
 				})
 
 				local watermark = library:watermark({default = os.date('Atlanta |  - %b %d %Y - %H:%M:%S')})  
@@ -1779,7 +1784,7 @@
 					name = "Configurations", 
 					size = dim2(0, 324, 0, 410),
 					position = dim2(0, items.main_holder.AbsolutePosition.X + items.main_holder.AbsoluteSize.X + 2, 0, items.main_holder.AbsolutePosition.Y),
-					image = "rbxassetid://105199726008012",
+					image = "rbxassetid://77937190465422",
 				}) 
 
 				local items = holder.items
@@ -1840,7 +1845,7 @@
 					anchor_point = vec2(0, 0),
 					size = dim2(0, 300, 0, 325),
 					position = dim2(0, style.items.main_holder.AbsolutePosition.X, 0, style.items.main_holder.AbsolutePosition.Y + style.items.main_holder.AbsoluteSize.Y + 2),
-					image = "rbxassetid://77684377836328",
+					image = "rbxassetid://92481398073007",
 				})  
 				
 				local items = holder.items
@@ -5587,6 +5592,9 @@
 						
 			return setmetatable(cfg, library)   
 		end 
+
+		local indi = library:indicator() 
+		indi.add_bar("Armor", Color3.fromRGB(255, 255, 255), 0, 1000, 1000)
 
 	-- 
 -- 
