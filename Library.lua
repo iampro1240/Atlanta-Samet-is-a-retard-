@@ -222,23 +222,64 @@
 		makefolder(library.directory .. path)
 	end 
 
-	writefile("ffff.ttf", game:HttpGet("https://github.com/i77lhm/storage/blob/refs/heads/main/fonts/Minecraftia-Regular.ttf"))
+	local FontNames = {
+        ["ProggyClean"] = "ProggyClean.ttf",
+        ["Tahoma"] = "fs-tahoma-8px.ttf",
+        ["Verdana"] = "Verdana-Font.ttf",
+        ["SmallestPixel"] = "smallest_pixel-7.ttf",
+        ["ProggyTiny"] = "ProggyTiny.ttf",
+        ["Minecraftia"] = "Minecraftia-Regular.ttf",
+        ["Tahoma Bold"] = "tahoma_bold.ttf",
+        ["Rubik"] = "Rubik-Regular.ttf"
+    }
 
-	local tahoma = {
-		name = "SmallestPixel7",
-		faces = {
-			{
-				name = "minecraft",
-				weight = 400,
-				style = "Normal",
-				assetId = getcustomasset("ffff.ttf")
-			}
-		}
-	}
+    local FontIndexes = {"ProggyClean", "Tahoma", "Verdana", "SmallestPixel", "ProggyTiny", "Minecraftia", "Tahoma Bold", "Rubik"}
 
-	writefile("dddd.ttf", http_service:JSONEncode(tahoma))
+    local Fonts = {}; do
+        local function RegisterFont(Name, Weight, Style, Asset)
+            if not isfile(Asset.Id) then
+                writefile(Asset.Id, Asset.Font)
+            end
 
-	library.font = Font.new(getcustomasset("dddd.ttf"), Enum.FontWeight.Regular)
+            if isfile(Name .. ".font") then
+                delfile(Name .. ".font")
+            end
+
+            local Data = {
+                name = Name,
+                faces = {
+                    {
+                        name = "Normal",
+                        weight = Weight,
+                        style = Style,
+                        assetId = getcustomasset(Asset.Id),
+                    },
+                },
+            }
+
+            writefile(Name .. ".font", http_service:JSONEncode(Data))
+
+            return getcustomasset(Name .. ".font");
+        end
+
+        for name, suffix in FontNames do 
+            local Weight = 400 
+
+            if name == "Rubik" then -- fuckin stupid 
+                Weight = 900 
+            end 
+
+            local RegisteredFont = RegisterFont(name, Weight, "Normal", {
+                Id = suffix,
+                Font = game:HttpGet("https://github.com/i77lhm/storage/raw/refs/heads/main/fonts/" .. suffix),
+            }) 
+            
+            Fonts[name] = Font.new(RegisteredFont, Enum.FontWeight.Regular, Enum.FontStyle.Normal)
+        end
+    end
+--
+
+	library.font = Fonts["Minecraftia"]
 
 	local config_holder 
 -- 
