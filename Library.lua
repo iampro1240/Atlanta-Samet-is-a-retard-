@@ -3631,7 +3631,6 @@
 					BorderSizePixel = 0;
 				});
 				
-				local RainbowToggle = setmetatable(cfg, library):toggle({name = "Rainbow", flag = cfg.flag .. "_RAINBOW_FLAG"})
 
 				cfg.holder = library:create( "Frame" , {
 					Parent = colorpicker_holder;
@@ -3647,10 +3646,8 @@
 				section:button_holder({})
 				section:button({name = "Copy", callback = function()
 					library.copied_flag = flags[cfg.flag]
-					library.is_rainbow = cfg.flag .. "_RAINBOW_FLAG"
 				end})
 				section:button({name = "Paste", callback = function()
-					RainbowToggle.set(library.is_rainbow)
 					cfg.set(library.copied_flag.Color, library.copied_flag.Transparency)
 				end})
 
