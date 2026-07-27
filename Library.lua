@@ -657,7 +657,7 @@
 					Position = dim2(0, 0, 0, -1),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.X,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -738,7 +738,7 @@
 						TextXAlignment = Enum.TextXAlignment.Right;
 						AutomaticSize = Enum.AutomaticSize.XY;
 						TextColor3 = themes.preset.text;
-						TextSize = 12;
+						TextSize = 10;
 						ZIndex = 100;
 						BackgroundColor3 = rgb(255, 255, 255)
 					});
@@ -798,7 +798,7 @@
 						Position = dim2(0, 2, 0, 4),
 						BorderSizePixel = 0,
 						AutomaticSize = Enum.AutomaticSize.XY,
-						TextSize = 12,
+						TextSize = 10,
 						BackgroundColor3 = rgb(255, 255, 255)
 					}) library:apply_theme(items.text, "accent", "TextColor3")
 					
@@ -899,7 +899,7 @@
 						Text = "",
 						Size = dim2(0, 25, 0, 25),
 						BorderSizePixel = 0,
-						TextSize = 14,
+						TextSize = 10,
 						BackgroundColor3 = themes.preset.inline
 					})
 					
@@ -1024,7 +1024,7 @@
 					BorderSizePixel = 0;
 					ZIndex = 5;
 					AutomaticSize = Enum.AutomaticSize.Y;
-					TextSize = 12;
+					TextSize = 10;
 				}); 
 
 				items.Accent = library:create( "Frame" , {
@@ -1151,7 +1151,7 @@
 					BorderSizePixel = 0;
 					ZIndex = 5;
 					AutomaticSize = Enum.AutomaticSize.Y;
-					TextSize = 12;
+					TextSize = 10;
 				});
 
 				library:create( "UIStroke" , {
@@ -1495,7 +1495,7 @@
 					TextTruncate = Enum.TextTruncate.AtEnd,
 					Size = dim2(1, 0, 1, 0),
 					BorderSizePixel = 0,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = themes.preset.text
 				}, "text")
 				
@@ -1911,7 +1911,7 @@
 				Position = dim2(0, -1, 0, 1),
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.X,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 			
@@ -2028,7 +2028,7 @@
 					Position = dim2(0, 0, 0, -5);
 					BorderSizePixel = 0;
 					AutomaticSize = Enum.AutomaticSize.Y;
-					TextSize = 12;
+					TextSize = 10;
 				});
 				
 				objects[ "box_handler" ] = library:create( "Frame" , {
@@ -2276,7 +2276,7 @@
 						Position = dim2(0, 0, 1, 5);
 						BorderSizePixel = 0;
 						AutomaticSize = Enum.AutomaticSize.Y;
-						TextSize = 12;
+						TextSize = 10;
 					});                
 				-- 
 
@@ -2294,7 +2294,7 @@
 						Position = dim2(0, 0, 1, 19);
 						BorderSizePixel = 0;
 						AutomaticSize = Enum.AutomaticSize.Y;
-						TextSize = 12;
+						TextSize = 10;
 					});
 				--  
 			end 
@@ -2437,7 +2437,7 @@
 					Position = UDim2.new(0, 0, 0, -1),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.X,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 		
@@ -2535,7 +2535,7 @@
 					BorderSizePixel = 0,
 					Size = dim2(0, 0, 1, -2),
 					ZIndex = 5,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = themes.preset.outline,
 					AutoButtonColor = false
 				}) library:apply_theme(tab_holder, "outline", "BackgroundColor3") 
@@ -2579,7 +2579,7 @@
 					Size = dim2(1, 0, 1, 0),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.X,
-					TextSize = 12,
+					TextSize = 10,
 					ZIndex = 5,
 					BackgroundColor3 = rgb(255, 255, 255)
 				}, "text")
@@ -2770,7 +2770,7 @@
 						BorderSizePixel = 0,
 						Size = dim2(0, 0, 1, 0),
 						ZIndex = 1,
-						TextSize = 12,
+						TextSize = 10,
 						BackgroundColor3 = themes.preset.outline
 					}) library:apply_theme(tabb, "outline", "BackgroundColor3") 
 					
@@ -2803,7 +2803,7 @@
 						Size = dim2(1, 0, 1, 0),
 						BorderSizePixel = 0,
 						AutomaticSize = Enum.AutomaticSize.X,
-						TextSize = 12,
+						TextSize = 10,
 						BackgroundColor3 = rgb(255, 255, 255)
 					}) library:apply_theme(text, "accent", "TextColor3")
 					
@@ -2934,7 +2934,7 @@
 				Position = dim2(0, 6, 0, 4),
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.XY,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 
@@ -3055,7 +3055,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.Y,
 					TextYAlignment = Enum.TextYAlignment.Top,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -3083,7 +3083,7 @@
 						Size = dim2(0, 0, 1, -1),
 						BorderSizePixel = 0,
 						AutomaticSize = Enum.AutomaticSize.X,
-						TextSize = 12,
+						TextSize = 10,
 						BackgroundColor3 = rgb(255, 255, 255)
 					}, "text")
 
@@ -3161,7 +3161,7 @@
 					Position = dim2(0, 0, 0, -1),
 					Size = dim2(1, 0, 1, 0),
 					BorderSizePixel = 0,
-					TextSize = 12,
+					TextSize = 10,
 					ZIndex = 2,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
@@ -3294,7 +3294,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.Y,
 					TextYAlignment = Enum.TextYAlignment.Top,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -3345,7 +3345,7 @@
 					Size = dim2(0, 0, 1, -1),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.X,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 			
@@ -3591,7 +3591,7 @@
 					Position = dim2(0, 2, 0, 4),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.XY,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -4082,7 +4082,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					TextTruncate = Enum.TextTruncate.AtEnd,
 					AutomaticSize = Enum.AutomaticSize.Y,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = themes.preset.text
 				}, "text")
 			end 
@@ -4158,7 +4158,7 @@
 				Position = dim2(0, 0, 0, -2),
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.XY,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 
@@ -4199,7 +4199,7 @@
 					AutomaticSize = Enum.AutomaticSize.XY,
 					BorderSizePixel = 0,
 					ZIndex = 2,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -4229,7 +4229,7 @@
 					AutomaticSize = Enum.AutomaticSize.XY,
 					BorderSizePixel = 0,
 					ZIndex = 2,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -4250,7 +4250,7 @@
 					AutomaticSize = Enum.AutomaticSize.XY,
 					BorderSizePixel = 0,
 					ZIndex = 2,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -4502,7 +4502,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.Y,
 					TextYAlignment = Enum.TextYAlignment.Top,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 
@@ -4530,7 +4530,7 @@
 						Size = dim2(0, 0, 1, -1),
 						BorderSizePixel = 0,
 						AutomaticSize = Enum.AutomaticSize.X,
-						TextSize = 12,
+						TextSize = 10,
 						BackgroundColor3 = rgb(255, 255, 255)
 					})
 					
@@ -4661,7 +4661,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					BorderSizePixel = 0,
 					TextTruncate = Enum.TextTruncate.AtEnd,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -4873,7 +4873,7 @@
 						BorderSizePixel = 0,
 						TextWrapped = true,
 						AutomaticSize = Enum.AutomaticSize.Y,
-						TextSize = 12,
+						TextSize = 10,
 						TextXAlignment = Enum.TextXAlignment.Left,
 						ZIndex = 2, 
 						Text = v,
@@ -4957,7 +4957,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.Y,
 					TextYAlignment = Enum.TextYAlignment.Top,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -5092,7 +5092,7 @@
 					Size = dim2(1, 0, 0, 0),
 					BorderSizePixel = 0,
 					AutomaticSize = Enum.AutomaticSize.Y,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 
@@ -5195,7 +5195,7 @@
 					TextXAlignment = Enum.TextXAlignment.Left,
 					AutomaticSize = Enum.AutomaticSize.Y,
 					TextYAlignment = Enum.TextYAlignment.Top,
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -5265,7 +5265,7 @@
 					PlaceholderText = "Type here...",
 					ClearTextOnFocus = false,
 					ZIndex = 3;
-					TextSize = 12,
+					TextSize = 10,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
 				
@@ -5358,7 +5358,7 @@
 				TextXAlignment = Enum.TextXAlignment.Left,
 				AutomaticSize = Enum.AutomaticSize.Y,
 				TextYAlignment = Enum.TextYAlignment.Top,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255), 
 			})
 
@@ -5486,7 +5486,7 @@
 				TextTruncate = Enum.TextTruncate.AtEnd,
 				BorderSizePixel = 0,
 				FontFace = library.font,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 			
@@ -5520,7 +5520,7 @@
 				TextXAlignment = Enum.TextXAlignment.Left,
 				AutomaticSize = Enum.AutomaticSize.Y,
 				TextYAlignment = Enum.TextYAlignment.Top,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 			
@@ -5551,7 +5551,7 @@
 				TextXAlignment = Enum.TextXAlignment.Left,
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.Y,
-				TextSize = 12,
+				TextSize = 10,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
 
