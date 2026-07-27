@@ -5593,8 +5593,6 @@
 			return setmetatable(cfg, library)   
 		end 
 
-		local indi = library:indicator() 
-		indi.add_bar("Armor", Color3.fromRGB(255, 255, 255), 0, 1000, 1000)
 
 	-- 
 -- 
