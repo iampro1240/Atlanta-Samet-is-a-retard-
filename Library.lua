@@ -1244,11 +1244,7 @@
 				items.label = section:label({name = "Player: "})
 				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
 
-				function cfg.add_bar(name, color, min, max, default)
-					items.slider = section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
-				   --items.slider2 = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
-				   --section:slider({name = name or "Type Here", custom = color or rgb(0, 245, 0), min = min or 0, max = max or 100, default = default or 50, input = true})
-			    end 
+				
 				
 				library:create( "UIStroke" , {
 					Parent = items.InfoTitle
