@@ -1240,9 +1240,16 @@
 					BorderSizePixel = 0;
 				});	
 
+
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Player: "})
-				items.slider = section:slider({name = "Health", custom = rgb(255, 0, 0), min = 0, max = 100, default = 50, input = true})
+				items.slider = section:slider({name = "Health", custom = themes.preset.accent, min = 0, max = 100, default = 50, input = true})
+
+
+				local success, error = pcall(function()
+					items.manipLabel = section:label({name = "Manipulated: "})
+                  
+                end)
 
 				
 				
