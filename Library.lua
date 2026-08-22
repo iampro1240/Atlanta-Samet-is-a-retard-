@@ -1244,11 +1244,11 @@
 				local section = setmetatable(items, library)
 				items.label = section:label({name = "Player: "})
 				items.slider = section:slider({name = "Health", custom = themes.preset.accent, min = 0, max = 100, default = 50, input = true})
+				library:apply_theme(items.slider, "accent", "BackgroundColor3");
 
 
 				local success, error = pcall(function()
 					items.manipLabel = section:label({name = "Manipulated: "})
-                  
                 end)
 
 				
