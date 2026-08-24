@@ -583,7 +583,7 @@
 			
 			for prop, value in next, options do 
 				ins[prop] = value
-			end
+			end 
 			
 			if instance == "TextLabel" or instance == "TextButton" or instance == "TextBox" then 	
 				library:apply_theme(ins, "text", "TextColor3")
@@ -1210,7 +1210,7 @@
 					Position = dim2(0, 10, 0, 28);
 					BorderColor3 = rgb(0, 0, 0);
 					Size = dim2(0, 68, 0, 67);
-					BorderSizePixel = 0;
+					BorderSizePixel = 0,
 					BackgroundColor3 = themes.preset.outline
 				});	library:apply_theme(items.Inline, "outline", "BackgroundColor3")
 				
@@ -1922,7 +1922,6 @@
 			
 			library:create("UIStroke", {
 				Parent = text,
-				Name = "",
 				LineJoinMode = Enum.LineJoinMode.Miter
 			})
 			
@@ -1976,7 +1975,7 @@
 					BorderColor3 = rgb(0, 0, 0);
 					ZIndex = 1;
 					Position = dim2(0, 0, 0, 10);
-					BorderSizePixel = 0,
+					BorderSizePixel = 0;
 					BackgroundColor3 = rgb(255, 255, 255)
 				});
 				
@@ -2061,7 +2060,7 @@
 					Position = dim2(0, 1, 0, 1);
 					BorderColor3 = rgb(0, 0, 0);
 					Size = dim2(1, -2, 1, -2);
-					BorderSizePixel = 0;
+					BorderSizePixel = 0,
 					BackgroundColor3 = rgb(255, 255, 255)
 				});
 				
@@ -2269,7 +2268,7 @@
 
 				-- Distance esp
 					objects[ "distance" ] = library:create( "TextLabel" , {
-						FontFace = library.font,
+						FontFace = library.font;
 						TextColor3 = flags["Distance_Color"].Color;
 						BorderColor3 = rgb(0, 0, 0);
 						Text = "127st";
@@ -3481,7 +3480,7 @@
 		end
 		
 		function library:colorpicker(options)
-			local parent = self.right_holder
+			local parent = self.right_holder or self.holder
 			
 			local cfg = {
 				name = options.name or "Color", 
@@ -4053,7 +4052,7 @@
 		end
 
 		function library:keybind(options)
-			local parent = self.right_holder
+			local parent = self.right_holder or self.holder
 
 			local cfg = {
 				flag = options.flag or "SET ME A FLAG NOWWW!!!!",
@@ -4275,7 +4274,7 @@
 						rgbkey(0, rgb(41, 41, 55)),
 						rgbkey(1, rgb(35, 35, 47))
 					}
-				}); library:apply_theme(UIGradient, "contrast", "Color")
+				}); library:apply_theme(UIGradient, "contrast", "Color") 
 				
 				local UIStroke = library:create("UIStroke", {
 					Parent = keybind_selector,
@@ -4472,6 +4471,268 @@
 
 			return setmetatable(cfg, library) 
 		end 
+
+		function library:options(options)
+			local parent = self.right_holder or self.holder
+			
+			local cfg = {
+				name = (options and (options.name or options.text)) or "Options",
+				icon = (options and options.icon) or "...",
+				size = (options and options.size) or dim2(0, 160, 0, 0),
+				open = false,
+				visible = (options and options.visible ~= nil) and options.visible or true,
+				flag = (options and options.flag) or tostring(random(1, 9999999)),
+			}
+
+			local icon_str = cfg.icon
+			if icon_str == "lines" or icon_str == "bars" then
+				icon_str = "≡"
+			elseif icon_str == "dots" then
+				icon_str = "..."
+			end
+
+			-- button on the right of toggle/element
+			local opt_button = library:create("TextButton", {
+				Parent = parent,
+				Name = "options_button",
+				BorderColor3 = rgb(0, 0, 0),
+				Size = dim2(0, 16, 0, 14),
+				BorderSizePixel = 0,
+				BackgroundColor3 = themes.preset.outline,
+				Text = "",
+				AutoButtonColor = false,
+			}) library:apply_theme(opt_button, "outline", "BackgroundColor3")
+
+			local inline = library:create("Frame", {
+				Parent = opt_button,
+				Name = "inline",
+				ZIndex = 2,
+				Position = dim2(0, 1, 0, 1),
+				BorderColor3 = rgb(0, 0, 0),
+				Size = dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = themes.preset.inline
+			}) library:apply_theme(inline, "inline", "BackgroundColor3")
+
+			local handler = library:create("Frame", {
+				Parent = inline,
+				Name = "handler",
+				ZIndex = 2,
+				Position = dim2(0, 1, 0, 1),
+				BorderColor3 = rgb(0, 0, 0),
+				Size = dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = rgb(255, 255, 255)
+			})
+
+			local UIGradient = library:create("UIGradient", {
+				Parent = handler,
+				Name = "",
+				Rotation = 90,
+				Color = rgbseq{
+					rgbkey(0, rgb(41, 41, 55)),
+					rgbkey(1, rgb(35, 35, 47))
+				}
+			}) library:apply_theme(UIGradient, "contrast", "Color")
+
+			local icon_text = library:create("TextLabel", {
+				Parent = handler,
+				Name = "icon_text",
+				FontFace = library.font,
+				TextColor3 = themes.preset.text,
+				BorderColor3 = rgb(0, 0, 0),
+				ZIndex = 3,
+				Text = icon_str,
+				Size = dim2(1, 0, 1, 0),
+				BackgroundTransparency = 1,
+				Position = dim2(0, 0, 0, -1),
+				BorderSizePixel = 0,
+				TextSize = 10,
+				BackgroundColor3 = rgb(255, 255, 255)
+			})
+
+			library:create("UIStroke", {
+				Parent = icon_text,
+				LineJoinMode = Enum.LineJoinMode.Miter
+			})
+
+			library:hoverify(opt_button, opt_button)
+
+			-- pop-up window holder
+			local popup_holder = library:create("Frame", {
+				Parent = sgui,
+				Name = "extra_options_popup",
+				Position = dim2(0, opt_button.AbsolutePosition.X + 22, 0, opt_button.AbsolutePosition.Y),
+				BorderColor3 = rgb(0, 0, 0),
+				Size = cfg.size,
+				BorderSizePixel = 0,
+				BackgroundColor3 = themes.preset.outline,
+				AutomaticSize = Enum.AutomaticSize.Y,
+				Visible = false,
+				ZIndex = 10,
+			}) library:apply_theme(popup_holder, "outline", "BackgroundColor3")
+
+			library:draggify(popup_holder)
+
+			local window_inline = library:create("Frame", {
+				Parent = popup_holder,
+				Name = "window_inline",
+				Position = dim2(0, 1, 0, 1),
+				BorderColor3 = rgb(0, 0, 0),
+				Size = dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = themes.preset.accent,
+				AutomaticSize = Enum.AutomaticSize.Y,
+				ZIndex = 10,
+			}) library:apply_theme(window_inline, "accent", "BackgroundColor3")
+
+			local window_holder = library:create("Frame", {
+				Parent = window_inline,
+				Name = "window_holder",
+				Position = dim2(0, 1, 0, 1),
+				BorderColor3 = themes.preset.outline,
+				Size = dim2(1, -2, 1, -2),
+				BorderSizePixel = 0,
+				BackgroundColor3 = rgb(255, 255, 255),
+				AutomaticSize = Enum.AutomaticSize.Y,
+				ZIndex = 10,
+			})
+
+			local UIGradient = library:create("UIGradient", {
+				Parent = window_holder,
+				Rotation = 90,
+				Name = "_",
+				Color = rgbseq{
+					rgbkey(0, rgb(41, 41, 55)),
+					rgbkey(1, rgb(35, 35, 47))
+				}
+			}) library:apply_theme(UIGradient, "contrast", "Color")
+
+			local top_bar = library:create("Frame", {
+				Parent = window_holder,
+				Name = "top_bar",
+				Size = dim2(1, 0, 0, 16),
+				BackgroundTransparency = 1,
+				BorderSizePixel = 0,
+				ZIndex = 11,
+			})
+
+			local title = library:create("TextLabel", {
+				Parent = top_bar,
+				FontFace = library.font,
+				TextColor3 = themes.preset.text,
+				BorderColor3 = rgb(0, 0, 0),
+				Text = cfg.name,
+				Name = "text",
+				BackgroundTransparency = 1,
+				Position = dim2(0, 4, 0, 2),
+				BorderSizePixel = 0,
+				AutomaticSize = Enum.AutomaticSize.XY,
+				TextSize = 10,
+				ZIndex = 12,
+				BackgroundColor3 = rgb(255, 255, 255)
+			})
+			library:create("UIStroke", {
+				Parent = title,
+				LineJoinMode = Enum.LineJoinMode.Miter
+			})
+
+			local close_btn = library:create("TextButton", {
+				Parent = top_bar,
+				FontFace = library.font,
+				TextColor3 = themes.preset.text,
+				BorderColor3 = rgb(0, 0, 0),
+				Text = "x",
+				BackgroundTransparency = 1,
+				Position = dim2(1, -12, 0, 1),
+				Size = dim2(0, 10, 0, 10),
+				BorderSizePixel = 0,
+				TextSize = 10,
+				ZIndex = 12,
+				BackgroundColor3 = rgb(255, 255, 255)
+			})
+			library:create("UIStroke", {
+				Parent = close_btn,
+				LineJoinMode = Enum.LineJoinMode.Miter
+			})
+			close_btn.MouseButton1Click:Connect(function()
+				cfg.set_visible(false)
+				cfg.open = false
+			end)
+
+			local divider = library:create("Frame", {
+				Parent = window_holder,
+				Name = "divider",
+				Position = dim2(0, 2, 0, 16),
+				Size = dim2(1, -4, 0, 1),
+				BorderSizePixel = 0,
+				BackgroundColor3 = themes.preset.inline,
+				ZIndex = 11,
+			}) library:apply_theme(divider, "inline", "BackgroundColor3")
+
+			local elements_container = library:create("Frame", {
+				Parent = window_holder,
+				Name = "elements",
+				Position = dim2(0, 0, 0, 18),
+				Size = dim2(1, 0, 0, 0),
+				BackgroundTransparency = 1,
+				BorderSizePixel = 0,
+				AutomaticSize = Enum.AutomaticSize.Y,
+				ZIndex = 11,
+			})
+
+			library:create("UIListLayout", {
+				Parent = elements_container,
+				Padding = dim(0, 4),
+				SortOrder = Enum.SortOrder.LayoutOrder,
+				HorizontalAlignment = Enum.HorizontalAlignment.Center,
+			})
+
+			library:create("UIPadding", {
+				Parent = elements_container,
+				PaddingTop = dim(0, 4),
+				PaddingBottom = dim(0, 6),
+				PaddingLeft = dim(0, 4),
+				PaddingRight = dim(0, 4),
+			})
+
+			cfg.holder = elements_container
+
+			function cfg.set_visible(bool)
+				popup_holder.Visible = bool
+				icon_text.TextColor3 = bool and themes.preset.accent or themes.preset.text
+
+				if bool then
+					if library.current_element_open and library.current_element_open ~= cfg then
+						library.current_element_open.set_visible(false)
+						library.current_element_open.open = false
+					end
+
+					library.current_element_open = cfg
+
+					local viewport_x = camera.ViewportSize.X
+					local target_x = opt_button.AbsolutePosition.X + 22
+					if target_x + popup_holder.AbsoluteSize.X > viewport_x then
+						target_x = opt_button.AbsolutePosition.X - popup_holder.AbsoluteSize.X - 6
+					end
+
+					popup_holder.Position = dim2(0, target_x, 0, opt_button.AbsolutePosition.Y)
+				else
+					if library.current_element_open == cfg then
+						library.current_element_open = nil
+					end
+				end
+			end
+
+			opt_button.MouseButton1Click:Connect(function()
+				cfg.open = not cfg.open
+				cfg.set_visible(cfg.open)
+			end)
+
+			return setmetatable(cfg, library)
+		end
+		library.modal = library.options
+		library.sub_options = library.options
 
 		function library:dropdown(options)
 			local parent = self.holder 
@@ -5605,7 +5866,7 @@
 				Parent = self.holder,
 				Name = "separator",
 				BackgroundTransparency = 1,
-				Size = dim2(1, -8, 0, cfg.name and 14 or 6),
+				Size = dim2(1, -8, 0, 				cfg.name and 14 or 6),
 				BorderSizePixel = 0,
 				BackgroundColor3 = rgb(255, 255, 255)
 			})
@@ -5619,67 +5880,59 @@
 					Text = cfg.name,
 					Name = "text",
 					BackgroundTransparency = 1,
-					Position = dim2(0, 2, 0, -1),
-					Size = dim2(0, 0, 1, 0),
+					Position = dim2(0, 2, 0, -2),
 					BorderSizePixel = 0,
-					AutomaticSize = Enum.AutomaticSize.X,
+					AutomaticSize = Enum.AutomaticSize.XY,
 					TextSize = 10,
-					TextXAlignment = Enum.TextXAlignment.Left,
+					ZIndex = 2,
 					BackgroundColor3 = rgb(255, 255, 255)
 				})
-
 				library:create("UIStroke", {
 					Parent = text,
 					LineJoinMode = Enum.LineJoinMode.Miter
 				})
 
-				local line = library:create("Frame", {
+				local line_left = library:create("Frame", {
 					Parent = separator_holder,
-					Name = "line",
-					AnchorPoint = vec2(1, 0.5),
-					Position = dim2(1, 0, 0.5, 0),
-					BorderColor3 = rgb(0, 0, 0),
-					Size = dim2(1, -(text.AbsoluteSize.X + 10), 0, 1),
+					Name = "line_left",
+					Position = dim2(0, 0, 0.5, 0),
+					Size = dim2(0, 4, 0, 1),
 					BorderSizePixel = 0,
 					BackgroundColor3 = themes.preset.inline
-				}) library:apply_theme(line, "inline", "BackgroundColor3")
+				}) library:apply_theme(line_left, "inline", "BackgroundColor3")
+
+				local line_right = library:create("Frame", {
+					Parent = separator_holder,
+					Name = "line_right",
+					Position = dim2(0, text.AbsoluteSize.X + 8, 0.5, 0),
+					Size = dim2(1, -(text.AbsoluteSize.X + 8), 0, 1),
+					BorderSizePixel = 0,
+					BackgroundColor3 = themes.preset.inline
+				}) library:apply_theme(line_right, "inline", "BackgroundColor3")
 
 				text:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
-					line.Size = dim2(1, -(text.AbsoluteSize.X + 8), 0, 1)
+					line_right.Position = dim2(0, text.AbsoluteSize.X + 8, 0.5, 0)
+					line_right.Size = dim2(1, -(text.AbsoluteSize.X + 8), 0, 1)
 				end)
 			else
-				local line_outline = library:create("Frame", {
+				local divider = library:create("Frame", {
 					Parent = separator_holder,
-					Name = "line_outline",
-					AnchorPoint = vec2(0.5, 0.5),
-					Position = dim2(0.5, 0, 0.5, 0),
-					BorderColor3 = rgb(0, 0, 0),
+					Name = "divider",
+					Position = dim2(0, 0, 0.5, 0),
 					Size = dim2(1, 0, 0, 1),
 					BorderSizePixel = 0,
 					BackgroundColor3 = themes.preset.inline
-				}) library:apply_theme(line_outline, "inline", "BackgroundColor3")
-			end
-
-			function cfg.set_text(new_text)
-				if separator_holder:FindFirstChild("text") then
-					separator_holder.text.Text = new_text
-				end
+				}) library:apply_theme(divider, "inline", "BackgroundColor3")
 			end
 
 			function cfg.set_element_visible(bool)
 				separator_holder.Visible = bool
 			end
 
-			if type(options) == "table" and options.flag then
-				cfg.flag = options.flag
-				library.visible_flags[cfg.flag] = cfg.set_element_visible
-			end
-
 			cfg.set_element_visible(cfg.visible)
 
 			return setmetatable(cfg, library)
 		end
-	-- 
 -- 
 
-return library, themes;
+return library, themes
