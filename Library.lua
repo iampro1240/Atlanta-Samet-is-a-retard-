@@ -4472,13 +4472,13 @@
 			return setmetatable(cfg, library) 
 		end 
 
-		function library:options(options)
+				function library:options(options)
 			local parent = self.right_holder or self.holder
 			
 			local cfg = {
 				name = (options and (options.name or options.text)) or "Options",
 				icon = (options and options.icon) or "...",
-				size = (options and options.size) or dim2(0, 160, 0, 0),
+				width = (options and (options.width or options.size_x)) or 160,
 				open = false,
 				visible = (options and options.visible ~= nil) and options.visible or true,
 				flag = (options and options.flag) or tostring(random(1, 9999999)),
@@ -4491,7 +4491,7 @@
 				icon_str = "..."
 			end
 
-			-- button on the right of toggle/element
+			-- Button on the right of toggle/element
 			local opt_button = library:create("TextButton", {
 				Parent = parent,
 				Name = "options_button",
@@ -4558,13 +4558,13 @@
 
 			library:hoverify(opt_button, opt_button)
 
-			-- pop-up window holder
+			-- Pop-up window holder (Fixed AutomaticSize layout)
 			local popup_holder = library:create("Frame", {
 				Parent = sgui,
 				Name = "extra_options_popup",
 				Position = dim2(0, opt_button.AbsolutePosition.X + 22, 0, opt_button.AbsolutePosition.Y),
 				BorderColor3 = rgb(0, 0, 0),
-				Size = cfg.size,
+				Size = dim2(0, cfg.width, 0, 0),
 				BorderSizePixel = 0,
 				BackgroundColor3 = themes.preset.outline,
 				AutomaticSize = Enum.AutomaticSize.Y,
@@ -4579,7 +4579,7 @@
 				Name = "window_inline",
 				Position = dim2(0, 1, 0, 1),
 				BorderColor3 = rgb(0, 0, 0),
-				Size = dim2(1, -2, 1, -2),
+				Size = dim2(1, -2, 0, 0),
 				BorderSizePixel = 0,
 				BackgroundColor3 = themes.preset.accent,
 				AutomaticSize = Enum.AutomaticSize.Y,
@@ -4591,7 +4591,7 @@
 				Name = "window_holder",
 				Position = dim2(0, 1, 0, 1),
 				BorderColor3 = themes.preset.outline,
-				Size = dim2(1, -2, 1, -2),
+				Size = dim2(1, -2, 0, 0),
 				BorderSizePixel = 0,
 				BackgroundColor3 = rgb(255, 255, 255),
 				AutomaticSize = Enum.AutomaticSize.Y,
@@ -4608,13 +4608,20 @@
 				}
 			}) library:apply_theme(UIGradient, "contrast", "Color")
 
+			library:create("UIListLayout", {
+				Parent = window_holder,
+				SortOrder = Enum.SortOrder.LayoutOrder,
+				Padding = dim(0, 0)
+			})
+
 			local top_bar = library:create("Frame", {
 				Parent = window_holder,
 				Name = "top_bar",
-				Size = dim2(1, 0, 0, 16),
+				Size = dim2(1, 0, 0, 18),
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
 				ZIndex = 11,
+				LayoutOrder = 1,
 			})
 
 			local title = library:create("TextLabel", {
@@ -4644,7 +4651,7 @@
 				BorderColor3 = rgb(0, 0, 0),
 				Text = "x",
 				BackgroundTransparency = 1,
-				Position = dim2(1, -12, 0, 1),
+				Position = dim2(1, -14, 0, 2),
 				Size = dim2(0, 10, 0, 10),
 				BorderSizePixel = 0,
 				TextSize = 10,
@@ -4656,29 +4663,29 @@
 				LineJoinMode = Enum.LineJoinMode.Miter
 			})
 			close_btn.MouseButton1Click:Connect(function()
-				cfg.set_visible(false)
 				cfg.open = false
+				cfg.set_visible(false)
 			end)
 
 			local divider = library:create("Frame", {
 				Parent = window_holder,
 				Name = "divider",
-				Position = dim2(0, 2, 0, 16),
-				Size = dim2(1, -4, 0, 1),
+				Size = dim2(1, 0, 0, 1),
 				BorderSizePixel = 0,
 				BackgroundColor3 = themes.preset.inline,
 				ZIndex = 11,
+				LayoutOrder = 2,
 			}) library:apply_theme(divider, "inline", "BackgroundColor3")
 
 			local elements_container = library:create("Frame", {
 				Parent = window_holder,
 				Name = "elements",
-				Position = dim2(0, 0, 0, 18),
 				Size = dim2(1, 0, 0, 0),
 				BackgroundTransparency = 1,
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.Y,
 				ZIndex = 11,
+				LayoutOrder = 3,
 			})
 
 			library:create("UIListLayout", {
@@ -4692,8 +4699,8 @@
 				Parent = elements_container,
 				PaddingTop = dim(0, 4),
 				PaddingBottom = dim(0, 6),
-				PaddingLeft = dim(0, 4),
-				PaddingRight = dim(0, 4),
+				PaddingLeft = dim(0, 2),
+				PaddingRight = dim(0, 2),
 			})
 
 			cfg.holder = elements_container
@@ -4704,8 +4711,10 @@
 
 				if bool then
 					if library.current_element_open and library.current_element_open ~= cfg then
-						library.current_element_open.set_visible(false)
-						library.current_element_open.open = false
+						local elem = library.current_element_open
+						library.current_element_open = nil
+						if elem.open ~= nil then elem.open = false end
+						if elem.set_visible then elem.set_visible(false) end
 					end
 
 					library.current_element_open = cfg
