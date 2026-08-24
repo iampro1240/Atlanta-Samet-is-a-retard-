@@ -1671,11 +1671,11 @@
 				image = "rbxassetid://113234034461805",
 			})
 
-			local watermark = library:watermark({default = os.date('Atlanta |  - %b %d %Y - %H:%M:%S')})  
+			local watermark = library:watermark({default = os.date('NoteClient |  - %b %d %Y - %H:%M:%S')})  
 
 			task.spawn(function()
 				while task.wait(1) do 
-					watermark.change_text(os.date('Atlanta - Beta - %b %d %Y - %H:%M:%S'))
+					watermark.change_text(os.date('NoteClient - Beta - %b %d %Y - %H:%M:%S'))
 				end 
 			end) 
 
@@ -3252,23 +3252,25 @@
 	end 
 
 	function library:options(options, callback)
-	local parent = self.container or self.holder or self.right_holder or sgui
+	local parent = self.right_holder or self.holder or sgui
 	
 	local options_table = type(options) == "table" and options or {}
 	local cb = type(options) == "function" and options or (type(callback) == "function" and callback or nil)
 
+	-- We define the elements frame container reference down below, 
+	-- but let's set up the table structure correctly first.
 	local cfg = {
 		name = options_table.name or options_table.text or "Options",
 		icon = options_table.icon or "...",
 		size = options_table.size or dim2(0, options_table.width or 180, 0, options_table.height or 195),
 		open = false,
 		visible = options_table.visible ~= nil and options_table.visible or true,
-		flag = options_table.flag or tostring(random(1, 9999999)),
+		flag = options_table.flag or tostring(random(1, 999999)),
 	}
 
 	local icon_str = cfg.icon
 	if icon_str == "lines" or icon_str == "bars" then
-		icon_str = "â‰¡"
+		icon_str = "≡"
 	elseif icon_str == "dots" then
 		icon_str = "..."
 	end
@@ -3308,7 +3310,6 @@
 
 	local UIGradient = library:create("UIGradient", {
 		Parent = handler,
-		Name = "",
 		Rotation = 90,
 		Color = rgbseq{
 			rgbkey(0, rgb(41, 41, 55)),
@@ -3376,20 +3377,17 @@
 		ZIndex = 12,
 	})
 
-	local UIGradient = library:create("UIGradient", {
+	local UIGradient2 = library:create("UIGradient", {
 		Parent = window_holder,
 		Rotation = 90,
-		Name = "_",
 		Color = rgbseq{
 			rgbkey(0, rgb(41, 41, 55)),
 			rgbkey(1, rgb(35, 35, 47))
 		}
-	}) library:apply_theme(UIGradient, "contrast", "Color")
+	}) library:apply_theme(UIGradient2, "contrast", "Color")
 
 	local top_bar = library:create("Frame", {
 		Parent = window_holder,
-		Name = "top_bar",
-		Position = dim2(0, 0, 0, 0),
 		Size = dim2(1, 0, 0, 18),
 		BackgroundTransparency = 1,
 		BorderSizePixel = 0,
@@ -3402,7 +3400,6 @@
 		TextColor3 = themes.preset.text,
 		BorderColor3 = rgb(0, 0, 0),
 		Text = cfg.name,
-		Name = "text",
 		BackgroundTransparency = 1,
 		Position = dim2(0, 4, 0, 2),
 		BorderSizePixel = 0,
@@ -3411,10 +3408,7 @@
 		BackgroundColor3 = rgb(255, 255, 255),
 		ZIndex = 14,
 	})
-	library:create("UIStroke", {
-		Parent = title,
-		LineJoinMode = Enum.LineJoinMode.Miter
-	})
+	library:create("UIStroke", { Parent = title, LineJoinMode = Enum.LineJoinMode.Miter })
 
 	local close_btn = library:create("TextButton", {
 		Parent = top_bar,
@@ -3430,10 +3424,7 @@
 		BackgroundColor3 = rgb(255, 255, 255),
 		ZIndex = 14, 
 	})
-	library:create("UIStroke", {
-		Parent = close_btn,
-		LineJoinMode = Enum.LineJoinMode.Miter
-	})
+	library:create("UIStroke", { Parent = close_btn, LineJoinMode = Enum.LineJoinMode.Miter })
 	close_btn.MouseButton1Click:Connect(function()
 		cfg.open = false
 		cfg.set_visible(false)
@@ -3441,7 +3432,6 @@
 
 	local divider = library:create("Frame", {
 		Parent = window_holder,
-		Name = "divider",
 		Position = dim2(0, 2, 0, 18),
 		Size = dim2(1, -4, 0, 1),
 		BorderSizePixel = 0,
@@ -3455,9 +3445,6 @@
 		Active = true,
 		AutomaticCanvasSize = Enum.AutomaticSize.Y,
 		ScrollBarThickness = 2,
-		MidImage = "rbxassetid://103468666327206",
-		TopImage = "rbxassetid://103468666327206",
-		BottomImage = "rbxassetid://103468666327206",
 		Size = dim2(1, 0, 1, -22),
 		BackgroundTransparency = 1,
 		Position = dim2(0, 0, 0, 21),
@@ -3479,11 +3466,6 @@
 		BackgroundColor3 = rgb(255, 255, 255),
 		ZIndex = 14,
 	})
-	
-	-- Added fallback aliases for library compatibility
-	cfg.holder = elements
-	cfg.container = elements 
-	cfg.content = elements
 
 	library:create("UIListLayout", {
 		Parent = elements,
@@ -3499,6 +3481,11 @@
 		PaddingLeft = dim(0, 2),
 		PaddingRight = dim(0, 2),
 	})
+
+	-- Assign holders directly to cfg so functions called on it can find them
+	cfg.holder = elements
+	cfg.container = elements
+	cfg.content = elements
 
 	function cfg.set_visible(bool)
 		popup_holder.Visible = bool
@@ -3533,7 +3520,6 @@
 		cfg.set_visible(cfg.open)
 	end)
 
-	-- Added __index so cfg inherits the dropdown/toggle functions from your library
 	local res = setmetatable(cfg, { __index = library })
 
 	if cb then
@@ -3544,10 +3530,10 @@
 end
 library.modal = library.options
 library.sub_options = library.options
-    library.modal = library.options
-    library.sub_options = library.options
+
     
     function library:toggle(options)
+		local parent = self.container or self.holder or self.right_holder or main_holder_fallback
     		local cfg = {
     			enabled = options.enabled or nil,
     			name = options.name or "Toggle",
@@ -3769,7 +3755,7 @@ library.sub_options = library.options
 	end
 	
 	function library:colorpicker(options)
-		local parent = self.right_holder or self.holder or sgui
+		local parent = self.container or self.holder or self.right_holder or main_holder_fallback
 		
 		local cfg = {
 			name = options.name or "Color", 
@@ -4771,7 +4757,7 @@ library.sub_options = library.options
 	end 
 
 	function library:dropdown(options)
-		local parent = self.holder or sgui
+		local parent = self.container or self.holder or self.right_holder or main_holder_fallback
 
 		local cfg = {
 			name = options.name or nil,
