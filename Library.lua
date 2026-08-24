@@ -113,6 +113,7 @@
 			["text"] = hex("#B4B4B4"),
 			["text_outline"] = rgb(0, 0, 0),
 			["glow"] = hex("#6078BE"), 
+			["risky"] = hex("#FF4040"),
 		},
 
 		utility = {
@@ -142,6 +143,9 @@
 			["glow"] = {
 				["ImageColor3"] = {}, 	
 			}, 
+			["risky"] = {
+				["TextColor3"] = {},
+			},
 			["high_contrast"] = {
 				["BackgroundColor3"] = {},
 			},
@@ -1141,7 +1145,7 @@
 					FontFace = library.font;
 					TextColor3 = themes.preset.text;
 					BorderColor3 = rgb(0, 0, 0);
-					Text = "Info";
+					Text = "Indicators";
 					Parent = items.Outline;
 					Name = "\0";
 					Size = dim2(1, 0, 0, 0);
@@ -1539,7 +1543,7 @@
 					--AutomaticSize = Enum.AutomaticSize.Y,
 					BackgroundColor3 = themes.preset.inline
 				})
-				library:apply_theme(inline, "inline", "BackgroundColor3")
+				library:apply_theme(inline, "inline", "BackgroundColor3") 
 				
 				local background = library:create("Frame", {
 					Parent = inline,
@@ -1736,6 +1740,10 @@
 				:colorpicker({name = "Outline", color = themes.preset.text_outline, callback = function(color, alpha)
 					library:update_theme("text_outline", color)
 				end, flag = "Outline"})
+				section:label({name = "Risky"})
+				:colorpicker({name = "Risky", color = themes.preset.risky, callback = function(color, alpha)
+					library:update_theme("risky", color)
+				end, flag = "Risky"})
 				section:label({name = "Glow"})
 				:colorpicker({name = "Glow", color = themes.preset.glow, callback = function(color, alpha)
 					library:update_theme("glow", color)
@@ -1968,7 +1976,7 @@
 					BorderColor3 = rgb(0, 0, 0);
 					ZIndex = 1;
 					Position = dim2(0, 0, 0, 10);
-					BorderSizePixel = 0;
+					BorderSizePixel = 0,
 					BackgroundColor3 = rgb(255, 255, 255)
 				});
 				
@@ -2261,7 +2269,7 @@
 
 				-- Distance esp
 					objects[ "distance" ] = library:create( "TextLabel" , {
-						FontFace = library.font;
+						FontFace = library.font,
 						TextColor3 = flags["Distance_Color"].Color;
 						BorderColor3 = rgb(0, 0, 0);
 						Text = "127st";
@@ -2502,7 +2510,7 @@
 						tween_service:Create(v, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {TextTransparency = 1}):Play()
 					elseif v:IsA("Frame") then 
 						tween_service:Create(v, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {BackgroundTransparency = 1}):Play()
-					elseif v:IsA("ImageLabel") then
+					elseif v:IsA("ImageLabel") then 
 						tween_service:Create(v, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {ImageTransparency = 1}):Play()
 					elseif v:IsA("UIStroke") then 
 						tween_service:Create(v, TweenInfo.new(1, Enum.EasingStyle.Quad, Enum.EasingDirection.InOut), {Transparency = 1}):Play()
@@ -3274,6 +3282,7 @@
 				colorpicker = options.color or nil,
 				visible = options.visible or true,
 				tooltip = options.tooltip or nil,
+				risky = options.risky or false,
 			}
 
 			-- instances
@@ -3334,7 +3343,7 @@
 				local text = library:create("TextLabel", {
 					Parent = left_components,
 					FontFace = library.font,
-					TextColor3 = themes.preset.text,
+					TextColor3 = cfg.risky and themes.preset.risky or themes.preset.text,
 					BorderColor3 = rgb(0, 0, 0),
 					Text = cfg.name,
 					Name = "text",
@@ -3350,6 +3359,10 @@
 					Parent = text,
 					LineJoinMode = Enum.LineJoinMode.Miter
 				})
+
+				if cfg.risky then
+					library:apply_theme(text, "risky", "TextColor3")
+				end
 			
 				library:create("UIListLayout", {
 					Parent = left_components,
@@ -5581,8 +5594,92 @@
 			return setmetatable(cfg, library)   
 		end 
 
+		function library:separator(options)
+			local name = type(options) == "string" and options or (options and (options.name or options.text)) or nil
+			local cfg = {
+				name = name,
+				visible = (type(options) == "table" and options.visible ~= nil) and options.visible or true,
+			}
 
+			local separator_holder = library:create("Frame", {
+				Parent = self.holder,
+				Name = "separator",
+				BackgroundTransparency = 1,
+				Size = dim2(1, -8, 0, cfg.name and 14 or 6),
+				BorderSizePixel = 0,
+				BackgroundColor3 = rgb(255, 255, 255)
+			})
+
+			if cfg.name then
+				local text = library:create("TextLabel", {
+					Parent = separator_holder,
+					FontFace = library.font,
+					TextColor3 = themes.preset.text,
+					BorderColor3 = rgb(0, 0, 0),
+					Text = cfg.name,
+					Name = "text",
+					BackgroundTransparency = 1,
+					Position = dim2(0, 2, 0, -1),
+					Size = dim2(0, 0, 1, 0),
+					BorderSizePixel = 0,
+					AutomaticSize = Enum.AutomaticSize.X,
+					TextSize = 10,
+					TextXAlignment = Enum.TextXAlignment.Left,
+					BackgroundColor3 = rgb(255, 255, 255)
+				})
+
+				library:create("UIStroke", {
+					Parent = text,
+					LineJoinMode = Enum.LineJoinMode.Miter
+				})
+
+				local line = library:create("Frame", {
+					Parent = separator_holder,
+					Name = "line",
+					AnchorPoint = vec2(1, 0.5),
+					Position = dim2(1, 0, 0.5, 0),
+					BorderColor3 = rgb(0, 0, 0),
+					Size = dim2(1, -(text.AbsoluteSize.X + 10), 0, 1),
+					BorderSizePixel = 0,
+					BackgroundColor3 = themes.preset.inline
+				}) library:apply_theme(line, "inline", "BackgroundColor3")
+
+				text:GetPropertyChangedSignal("AbsoluteSize"):Connect(function()
+					line.Size = dim2(1, -(text.AbsoluteSize.X + 8), 0, 1)
+				end)
+			else
+				local line_outline = library:create("Frame", {
+					Parent = separator_holder,
+					Name = "line_outline",
+					AnchorPoint = vec2(0.5, 0.5),
+					Position = dim2(0.5, 0, 0.5, 0),
+					BorderColor3 = rgb(0, 0, 0),
+					Size = dim2(1, 0, 0, 1),
+					BorderSizePixel = 0,
+					BackgroundColor3 = themes.preset.inline
+				}) library:apply_theme(line_outline, "inline", "BackgroundColor3")
+			end
+
+			function cfg.set_text(new_text)
+				if separator_holder:FindFirstChild("text") then
+					separator_holder.text.Text = new_text
+				end
+			end
+
+			function cfg.set_element_visible(bool)
+				separator_holder.Visible = bool
+			end
+
+			if type(options) == "table" and options.flag then
+				cfg.flag = options.flag
+				library.visible_flags[cfg.flag] = cfg.set_element_visible
+			end
+
+			cfg.set_element_visible(cfg.visible)
+
+			return setmetatable(cfg, library)
+		end
 	-- 
 -- 
 
-return library, themes; 
+return library, themes;
