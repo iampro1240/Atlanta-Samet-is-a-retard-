@@ -3348,7 +3348,7 @@
     		BorderSizePixel = 0,
     		BackgroundColor3 = themes.preset.outline,
     		Visible = false,
-    		ZIndex = 10, -- Base popup layer
+    		ZIndex = 10, 
     	}) library:apply_theme(popup_holder, "outline", "BackgroundColor3")
     
     	library:draggify(popup_holder)
@@ -3362,7 +3362,7 @@
     		Size = dim2(1, -2, 1, -2),
     		BorderSizePixel = 0,
     		BackgroundColor3 = themes.preset.accent,
-    		ZIndex = 11, -- Layered above popup_holder
+    		ZIndex = 11,
     	}) library:apply_theme(window_inline, "accent", "BackgroundColor3")
     
     	local window_holder = library:create("Frame", {
@@ -3373,7 +3373,7 @@
     		Size = dim2(1, -2, 1, -2),
     		BorderSizePixel = 0,
     		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 12, -- Layered above window_inline
+    		ZIndex = 12,
     	})
     
     	local UIGradient = library:create("UIGradient", {
@@ -3393,7 +3393,7 @@
     		Size = dim2(1, 0, 0, 18),
     		BackgroundTransparency = 1,
     		BorderSizePixel = 0,
-    		ZIndex = 13, -- Layered above window_holder
+    		ZIndex = 13,
     	})
     
     	local title = library:create("TextLabel", {
@@ -3409,7 +3409,7 @@
     		AutomaticSize = Enum.AutomaticSize.XY,
     		TextSize = 10,
     		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 14, -- Layered above top_bar
+    		ZIndex = 14,
     	})
     	library:create("UIStroke", {
     		Parent = title,
@@ -3428,7 +3428,7 @@
     		BorderSizePixel = 0,
     		TextSize = 10,
     		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 14, -- Layered above top_bar
+    		ZIndex = 14, 
     	})
     	library:create("UIStroke", {
     		Parent = close_btn,
@@ -3446,7 +3446,7 @@
     		Size = dim2(1, -4, 0, 1),
     		BorderSizePixel = 0,
     		BackgroundColor3 = themes.preset.inline,
-    		ZIndex = 13, -- Layered above window_holder
+    		ZIndex = 13, 
     	}) library:apply_theme(divider, "inline", "BackgroundColor3")
     
     	local ScrollingFrame = library:create("ScrollingFrame", {
@@ -3465,7 +3465,7 @@
     		BorderColor3 = rgb(0, 0, 0),
     		BorderSizePixel = 0,
     		CanvasSize = dim2(0, 0, 0, 0),
-    		ZIndex = 13, -- Layered above window_holder
+    		ZIndex = 13, 
     	}) library:apply_theme(ScrollingFrame, "accent", "ScrollBarImageColor3")
     
     	local elements = library:create("Frame", {
@@ -3473,10 +3473,11 @@
     		Name = "elements",
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, 0, 0, 0),
+    		AutomaticSize = Enum.AutomaticSize.Y, -- THIS IS THE NEW FIX
     		BorderSizePixel = 0,
     		BackgroundTransparency = 1,
     		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 14, -- Layered above ScrollingFrame
+    		ZIndex = 14,
     	})
     	cfg.holder = elements
     
@@ -3525,19 +3526,19 @@
     
     	opt_button.MouseButton1Click:Connect(function()
     		cfg.open = not cfg.open
-        		cfg.set_visible(cfg.open)
-        	end)
-        
-        	local res = setmetatable(cfg, library)
-        
-        	if cb then
-        		cb(res)
-        	end
-        
-        	return res
-        end
-    	library.modal = library.options
-    	library.sub_options = library.options
+    		cfg.set_visible(cfg.open)
+    	end)
+    
+    	local res = setmetatable(cfg, library)
+    
+    	if cb then
+    		cb(res)
+    	end
+    
+    	return res
+    end
+    library.modal = library.options
+    library.sub_options = library.options
     
     function library:toggle(options)
     		local cfg = {
