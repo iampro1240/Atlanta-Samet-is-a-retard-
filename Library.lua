@@ -2374,7 +2374,8 @@
 				Position = UDim2.new(0, 20, 0, 72 + (#library.notifications * 28)),
 				AutomaticSize = Enum.AutomaticSize.X,
 				BackgroundColor3 = themes.preset.outline,
-				AnchorPoint = Vector2.new(1, 0)
+				AnchorPoint = Vector2.new(1, 0),
+				BackgroundTransparency = 1
 			})
 		
 			local watermark_inline = library:create("Frame", {
@@ -2384,7 +2385,8 @@
 				BorderColor3 = rgb(0, 0, 0),
 				Size = UDim2.new(1, -2, 1, -2),
 				BorderSizePixel = 0,
-				BackgroundColor3 = themes.preset.inline
+				BackgroundColor3 = themes.preset.inline,
+				BackgroundTransparency = 1
 			})
 
 			local watermark_background = library:create("Frame", {
@@ -2394,7 +2396,8 @@
 				BorderColor3 = rgb(0, 0, 0),
 				Size = UDim2.new(1, -2, 1, -2),
 				BorderSizePixel = 0,
-				BackgroundColor3 = rgb(255, 255, 255)
+				BackgroundColor3 = rgb(255, 255, 255),
+				BackgroundTransparency = 1
 			})
 	
 			local UIGradient = library:create("UIGradient", {
@@ -2419,7 +2422,7 @@
 				BorderSizePixel = 0,
 				AutomaticSize = Enum.AutomaticSize.X,
 				TextSize = 10,
-				BackgroundColor3 = rgb(255, 255, 255)
+				BackgroundColor3 = rgb(255, 255, 255),
 			})
 	
 			local accent = library:create("Frame", {
@@ -2429,7 +2432,8 @@
 				BorderColor3 = rgb(0, 0, 0),
 				Size = UDim2.new(0, 1, 1, -4),
 				BorderSizePixel = 0,
-				BackgroundColor3 = themes.preset.accent
+				BackgroundColor3 = themes.preset.accent,
+				BackgroundTransparency = 1
 			})
 
 			library:apply_theme(accent, "accent", "BackgroundColor3")
@@ -2451,7 +2455,8 @@
 				BorderColor3 = rgb(0, 0, 0),
 				Size = UDim2.new(0, -4, 0, 1),
 				BorderSizePixel = 0,
-				BackgroundColor3 = themes.preset.accent
+				BackgroundColor3 = themes.preset.accent,
+				BackgroundTransparency = 1
 			})
 			
 			local UIGradient = library:create("UIGradient", {
