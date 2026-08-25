@@ -3251,20 +3251,18 @@
 		return setmetatable(cfg, library) 
 	end 
 
-	function library:options(options, callback)
+
+	function library:options(options)
     	local parent = self.right_holder
-    	
-    	local options_table = type(options) == "table" and options or {}
-    	local cb = type(options) == "function" and options or (type(callback) == "function" and callback or nil)
     
-    	-- We define the elements frame container reference down below, 
-    	-- but let's set up the table structure correctly first.
+    	local options_table = type(options) == "table" and options or {}
+    
     	local cfg = {
-    		name = options_table.name or options_table.text or "Options",
+    		name = options_table.name or options_table.text or "Section",
     		icon = options_table.icon or "...",
     		size = options_table.size or dim2(0, options_table.width or 180, 0, options_table.height or 195),
     		open = false,
-    		visible = options_table.visible ~= nil and options_table.visible or true,
+    		visible = options_table.visible == nil and true or options_table.visible,
     		flag = options_table.flag or tostring(random(1, 999999)),
     	}
     
@@ -3275,9 +3273,10 @@
     		icon_str = "..."
     	end
     
+    	-- trigger button — same placement pattern as :colorpicker / :keybind
     	local opt_button = library:create("TextButton", {
     		Parent = parent,
-    		Name = "options_button",
+    		Name = "section_options_button",
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(0, 16, 0, 14),
     		BorderSizePixel = 0,
@@ -3286,7 +3285,7 @@
     		AutoButtonColor = false,
     	}) library:apply_theme(opt_button, "outline", "BackgroundColor3")
     
-    	local inline = library:create("Frame", {
+    	local btn_inline = library:create("Frame", {
     		Parent = opt_button,
     		Name = "inline",
     		ZIndex = 2,
@@ -3295,10 +3294,10 @@
     		Size = dim2(1, -2, 1, -2),
     		BorderSizePixel = 0,
     		BackgroundColor3 = themes.preset.inline
-    	}) library:apply_theme(inline, "inline", "BackgroundColor3")
+    	}) library:apply_theme(btn_inline, "inline", "BackgroundColor3")
     
-    	local handler = library:create("Frame", {
-    		Parent = inline,
+    	local btn_handler = library:create("Frame", {
+    		Parent = btn_inline,
     		Name = "handler",
     		ZIndex = 2,
     		Position = dim2(0, 1, 0, 1),
@@ -3308,17 +3307,17 @@
     		BackgroundColor3 = rgb(255, 255, 255)
     	})
     
-    	local UIGradient = library:create("UIGradient", {
-    		Parent = handler,
+    	local btn_gradient = library:create("UIGradient", {
+    		Parent = btn_handler,
     		Rotation = 90,
     		Color = rgbseq{
     			rgbkey(0, rgb(41, 41, 55)),
     			rgbkey(1, rgb(35, 35, 47))
     		}
-    	}) library:apply_theme(UIGradient, "contrast", "Color")
+    	}) library:apply_theme(btn_gradient, "contrast", "Color")
     
     	local icon_text = library:create("TextLabel", {
-    		Parent = handler,
+    		Parent = btn_handler,
     		Name = "icon_text",
     		FontFace = library.font,
     		TextColor3 = themes.preset.text,
@@ -3340,131 +3339,123 @@
     
     	library:hoverify(opt_button, opt_button)
     
+    	-- popup shell — draggable + resizable + positions off the button, same as :options
     	local popup_holder = library:create("Frame", {
     		Parent = sgui,
-    		Name = "extra_options_popup",
+    		Name = "section_options_popup",
     		Position = dim2(0, opt_button.AbsolutePosition.X + 22, 0, opt_button.AbsolutePosition.Y),
     		BorderColor3 = rgb(0, 0, 0),
     		Size = cfg.size,
     		BorderSizePixel = 0,
-    		BackgroundColor3 = themes.preset.outline,
+    		BackgroundColor3 = themes.preset.inline,
     		Visible = false,
-    		ZIndex = 10, 
-    	}) library:apply_theme(popup_holder, "outline", "BackgroundColor3")
+    		ZIndex = 10,
+    	}) library:apply_theme(popup_holder, "inline", "BackgroundColor3")
     
     	library:draggify(popup_holder)
     	library:make_resizable(popup_holder)
     
-    	local window_inline = library:create("Frame", {
+    	-- everything below is :section's body, verbatim, just reparented into the popup
+    	local inline = library:create("Frame", {
     		Parent = popup_holder,
-    		Name = "window_inline",
+    		Name = "\0",
     		Position = dim2(0, 1, 0, 1),
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, -2, 1, -2),
     		BorderSizePixel = 0,
-    		BackgroundColor3 = themes.preset.accent,
-    		ZIndex = 11,
-    	}) library:apply_theme(window_inline, "accent", "BackgroundColor3")
+    		BackgroundColor3 = themes.preset.outline
+    	}) library:apply_theme(inline, "outline", "BackgroundColor3")
     
-    	local window_holder = library:create("Frame", {
-    		Parent = window_inline,
-    		Name = "window_holder",
+    	local background = library:create("Frame", {
+    		Parent = inline,
+    		Name = "\0",
     		Position = dim2(0, 1, 0, 1),
-    		BorderColor3 = themes.preset.outline,
+    		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, -2, 1, -2),
     		BorderSizePixel = 0,
-    		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 12,
+    		BackgroundColor3 = rgb(255, 255, 255)
     	})
     
-    	local UIGradient2 = library:create("UIGradient", {
-    		Parent = window_holder,
+    	local text = library:create("TextLabel", {
+    		Parent = background,
+    		FontFace = library.font,
+    		TextColor3 = themes.preset.text,
+    		BorderColor3 = rgb(0, 0, 0),
+    		Text = cfg.name,
+    		Name = "\0",
+    		BackgroundTransparency = 1,
+    		Position = dim2(0, 6, 0, 4),
+    		BorderSizePixel = 0,
+    		AutomaticSize = Enum.AutomaticSize.XY,
+    		TextSize = 12,
+    		BackgroundColor3 = rgb(255, 255, 255)
+    	})
+    
+    	library:create("UIStroke", {
+    		Parent = text,
+    		LineJoinMode = Enum.LineJoinMode.Miter
+    	})
+    
+    	local accent = library:create("Frame", {
+    		Parent = background,
+    		Name = "\0",
+    		BorderColor3 = rgb(0, 0, 0),
+    		Size = dim2(1, 0, 0, 2),
+    		BorderSizePixel = 0,
+    		BackgroundColor3 = themes.preset.accent
+    	}) library:apply_theme(accent, "accent", "BackgroundColor3")
+    
+    	library:create("UIGradient", {
+    		Parent = accent,
+    		Rotation = 90,
+    		Color = rgbseq{
+    			rgbkey(0, rgb(255, 255, 255)),
+    			rgbkey(1, rgb(167, 167, 167))
+    		}
+    	})
+    
+    	local bg_gradient = library:create("UIGradient", {
+    		Parent = background,
     		Rotation = 90,
     		Color = rgbseq{
     			rgbkey(0, rgb(41, 41, 55)),
     			rgbkey(1, rgb(35, 35, 47))
     		}
-    	}) library:apply_theme(UIGradient2, "contrast", "Color")
-    
-    	local top_bar = library:create("Frame", {
-    		Parent = window_holder,
-    		Size = dim2(1, 0, 0, 18),
-    		BackgroundTransparency = 1,
-    		BorderSizePixel = 0,
-    		ZIndex = 13,
-    	})
-    
-    	local title = library:create("TextLabel", {
-    		Parent = top_bar,
-    		FontFace = library.font,
-    		TextColor3 = themes.preset.text,
-    		BorderColor3 = rgb(0, 0, 0),
-    		Text = cfg.name,
-    		BackgroundTransparency = 1,
-    		Position = dim2(0, 4, 0, 2),
-    		BorderSizePixel = 0,
-    		AutomaticSize = Enum.AutomaticSize.XY,
-    		TextSize = 10,
-    		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 14,
-    	})
-    	library:create("UIStroke", { Parent = title, LineJoinMode = Enum.LineJoinMode.Miter })
-    
-    	local close_btn = library:create("TextButton", {
-    		Parent = top_bar,
-    		FontFace = library.font,
-    		TextColor3 = themes.preset.text,
-    		BorderColor3 = rgb(0, 0, 0),
-    		Text = "x",
-    		BackgroundTransparency = 1,
-    		Position = dim2(1, -14, 0, 2),
-    		Size = dim2(0, 10, 0, 10),
-    		BorderSizePixel = 0,
-    		TextSize = 10,
-    		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 14, 
-    	})
-    	library:create("UIStroke", { Parent = close_btn, LineJoinMode = Enum.LineJoinMode.Miter })
-    	close_btn.MouseButton1Click:Connect(function()
-    		cfg.open = false
-    		cfg.set_visible(false)
-    	end)
-    
-    	local divider = library:create("Frame", {
-    		Parent = window_holder,
-    		Position = dim2(0, 2, 0, 18),
-    		Size = dim2(1, -4, 0, 1),
-    		BorderSizePixel = 0,
-    		BackgroundColor3 = themes.preset.inline,
-    		ZIndex = 13, 
-    	}) library:apply_theme(divider, "inline", "BackgroundColor3")
+    	}) library:apply_theme(bg_gradient, "contrast", "Color")
     
     	local ScrollingFrame = library:create("ScrollingFrame", {
-    		Parent = window_holder,
+    		Parent = background,
     		ScrollBarImageColor3 = themes.preset.accent,
     		Active = true,
     		AutomaticCanvasSize = Enum.AutomaticSize.Y,
     		ScrollBarThickness = 2,
-    		Size = dim2(1, 0, 1, -22),
+    		MidImage = "rbxassetid://103468666327206",
+    		TopImage = "rbxassetid://103468666327206",
+    		BottomImage = "rbxassetid://103468666327206",
+    		Size = dim2(1, 0, 1, -20),
     		BackgroundTransparency = 1,
-    		Position = dim2(0, 0, 0, 21),
+    		Position = dim2(0, 0, 0, 20),
     		BackgroundColor3 = rgb(255, 255, 255),
     		BorderColor3 = rgb(0, 0, 0),
     		BorderSizePixel = 0,
-    		CanvasSize = dim2(0, 0, 0, 0),
-    		ZIndex = 13, 
+    		CanvasSize = dim2(0, 0, 0, 0)
     	}) library:apply_theme(ScrollingFrame, "accent", "ScrollBarImageColor3")
+    
+    	ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
+    		if library.current_element_open then
+    			library.current_element_open.set_visible(false)
+    			library.current_element_open.open = false
+    			library.current_element_open = nil
+    		end
+    	end)
     
     	local elements = library:create("Frame", {
     		Parent = ScrollingFrame,
-    		Name = "elements",
+    		Name = "\0",
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, 0, 0, 0),
-    		AutomaticSize = Enum.AutomaticSize.Y, 
     		BorderSizePixel = 0,
-    		BackgroundTransparency = 1,
-    		BackgroundColor3 = rgb(255, 255, 255),
-    		ZIndex = 16,
+    		BackgroundColor3 = rgb(255, 255, 255)
     	})
     
     	library:create("UIListLayout", {
@@ -3476,16 +3467,12 @@
     
     	library:create("UIPadding", {
     		Parent = ScrollingFrame,
-    		PaddingTop = dim(0, 4),
-    		PaddingBottom = dim(0, 10),
-    		PaddingLeft = dim(0, 2),
-    		PaddingRight = dim(0, 2),
+    		PaddingBottom = dim(0, 10)
     	})
+    	-- end of :section's body
     
-    	-- Assign holders directly to cfg so functions called on it can find them
     	cfg.holder = elements
-    	--cfg.container = elements
-    	--cfg.content = elements
+    	cfg.right_holder = parent -- lets you chain more side-buttons onto the same row
     
     	function cfg.set_visible(bool)
     		popup_holder.Visible = bool
@@ -3494,9 +3481,9 @@
     		if bool then
     			if library.current_element_open and library.current_element_open ~= cfg then
     				local elem = library.current_element_open
-    				library.current_element_open = nil 
-    				if elem.open ~= nil then elem.open = false end 
-    				if elem.set_visible then elem.set_visible(false) end 
+    				library.current_element_open = nil
+    				if elem.open ~= nil then elem.open = false end
+    				if elem.set_visible then elem.set_visible(false) end
     			end
     
     			library.current_element_open = cfg
@@ -3515,13 +3502,17 @@
     		end
     	end
     
+    	function cfg.set_element_visible(bool)
+    		opt_button.Visible = bool
+    	end
+    
     	opt_button.MouseButton1Click:Connect(function()
     		cfg.open = not cfg.open
     		cfg.set_visible(cfg.open)
     	end)
     
-    	local res = setmetatable(cfg, { __index = library })
-    
+    	cfg.set_element_visible(cfg.visible)
+    	library.visible_flags[cfg.flag] = cfg.set_element_visible
     
     	return setmetatable(cfg, library)
     end
