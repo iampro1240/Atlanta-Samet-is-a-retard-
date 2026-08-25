@@ -3402,7 +3402,8 @@
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, 0, 0, 2),
     		BorderSizePixel = 0,
-    		BackgroundColor3 = themes.preset.accent
+    		BackgroundColor3 = themes.preset.accent,
+			ZIndex = 11,
     	}) library:apply_theme(accent, "accent", "BackgroundColor3")
     
     	library:create("UIGradient", {
@@ -3438,7 +3439,8 @@
     		BackgroundColor3 = rgb(255, 255, 255),
     		BorderColor3 = rgb(0, 0, 0),
     		BorderSizePixel = 0,
-    		CanvasSize = dim2(0, 0, 0, 0)
+    		CanvasSize = dim2(0, 0, 0, 0),
+			ZIndex = 12,
     	}) library:apply_theme(ScrollingFrame, "accent", "ScrollBarImageColor3")
     
     	ScrollingFrame:GetPropertyChangedSignal("CanvasPosition"):Connect(function()
@@ -3455,7 +3457,8 @@
     		BorderColor3 = rgb(0, 0, 0),
     		Size = dim2(1, 0, 0, 0),
     		BorderSizePixel = 0,
-    		BackgroundColor3 = rgb(255, 255, 255)
+    		BackgroundColor3 = rgb(255, 255, 255),
+			ZIndex = 13,
     	})
     
     	library:create("UIListLayout", {
