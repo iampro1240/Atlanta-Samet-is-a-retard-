@@ -2726,7 +2726,7 @@ function Library:Window(options)
 
 	local titleLabel = Utils.Text({
 		Name = "Title",
-		Size = UDim2.new(1, 0, 0, Metrics.WindowTitleHeight - 4),
+		Size = UDim2.new(.2, 0, 0, Metrics.WindowTitleHeight - 4),
 		TextXAlignment = Enum.TextXAlignment.Center,
 		Text = name,
 		Parent = body,
@@ -3932,7 +3932,7 @@ function Tab:Section(options)
 
 		headerLabel = Utils.Text({
 			Position = UDim2.fromOffset(2, 0),
-			Size = UDim2.new(1, -4, 1, 0),
+			Size = UDim2.new(1, -4, 0, 0),
 			Text = tostring(name),
 			ThemeKey = "SectionNameText",
 			Parent = header,
