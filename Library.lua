@@ -3252,7 +3252,7 @@
 	end 
 
 	function library:options(options, callback)
-    	local parent = self.holder
+    	local parent = self.right_holder
     	
     	local options_table = type(options) == "table" and options or {}
     	local cb = type(options) == "function" and options or (type(callback) == "function" and callback or nil)
