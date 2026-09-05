@@ -1828,7 +1828,7 @@
                     local currentTime = os.date('%b %d %Y - %H:%M:%S')
                     
                     -- 3. Format the string with the new %d parameter for the ping integer
-                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] %s - %dms - %s  ", accentHex, cfg.text, ping, currentTime)
+                    local newText = string.format("  [%s<font color='%s'>%s</font>] %s - %dms - %s  ", accentHex, "Dank", "Haxx", ping, currentTime)
                     
                     -- 4. Update the watermark (adjust ':set' to your library's actual update function)
                     watermark:set(newText)
