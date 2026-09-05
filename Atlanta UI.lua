@@ -1800,13 +1800,40 @@
 				image = "rbxassetid://115194686863276",
 			})
 
-			local watermark = library:watermark({default = os.date('NoobHaxx |  - %b %d %Y - %H:%M:%S')})  
 
-			task.spawn(function()
-				while task.wait(1) do 
-					watermark.change_text(os.date('NoobHaxx - %b %d %Y - %H:%M:%S'))
-				end 
-			end) 
+			local Stats = game:GetService("Stats")
+            local function color3ToHex(color)
+                local r = math.floor(color.R * 255)
+                local g = math.floor(color.G * 255)
+                local b = math.floor(color.B * 255)
+                return string.format("#%02X%02X%02X", r, g, b)
+            end
+            
+            local accentHex = color3ToHex(themes.preset.accent)
+            
+            -- Initial placeholder setup
+            local watermark = library:watermark({
+                default = string.format("  [Dank<font color='%s'>Haxx</font>] Loading...  ", accentHex)
+            })
+            
+            task.spawn(function()
+                while task.wait(1) do
+                    -- 1. Retrieve and round the current ping
+                    local ping = 0
+                    pcall(function()
+                        ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
+                    end)
+                    
+                    -- 2. Get the current time
+                    local currentTime = os.date('%b %d %Y - %H:%M:%S')
+                    
+                    -- 3. Format the string with the new %d parameter for the ping integer
+                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] %s - %dms - %s  ", accentHex, cfg.text, ping, currentTime)
+                    
+                    -- 4. Update the watermark (adjust ':set' to your library's actual update function)
+                    watermark:set(newText)
+                end
+            end)
 
 			local items = style.items
 
@@ -2072,7 +2099,8 @@
 			BorderSizePixel = 0,
 			AutomaticSize = Enum.AutomaticSize.X,
 			TextSize = 10,
-			BackgroundColor3 = rgb(255, 255, 255)
+			BackgroundColor3 = rgb(255, 255, 255),
+			RichText = true
 		})
 		
 		library:create("UIStroke", {
@@ -2610,6 +2638,7 @@
     				RichText = true,
     				Text = string.format("  [Noob<font color='%s'>Haxx</font>] %s  ", color3ToHex(themes.preset.accent), cfg.text)
 			    })
+				
 		
 				local accent = library:create("Frame", {
 					Parent = watermark_outline,
