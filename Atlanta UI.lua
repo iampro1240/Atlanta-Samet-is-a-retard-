@@ -1812,10 +1812,30 @@
 
             local accentHex = color3ToHex(themes.preset.accent)
             
+           
+            local watermark = library:watermark({
+                default = string.format("  [Dank<font color='%s'>Haxx</font>] Loading...  ", accentHex)
+            })
+            
+            task.spawn(function()
+                while task.wait(1) do
+                    local ping = 0
+                    pcall(function()
+                        ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
+                    end)
+                    
+                    local currentTime = os.date('%b %d %Y - %H:%M:%S')
+                    
+                    -- Removed the extra '%s' and 'cfg.text' parameter
+                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", tostring(hex("#1F1F1F")), ping, currentTime)
+
+                    watermark.change_text(newText)
+                end
+            end)
 
 			local items = style.items
 
-			local column = setmetatable(items, library):column()
+			local column = setmetatable(items, library):column() 
 			local section = column:section({name = "Theme"})
 			section:label({name = "Accent"})
 			:colorpicker({name = "Accent", color = themes.preset.accent, flag = "accent", callback = function(color, alpha)
