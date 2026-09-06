@@ -1808,17 +1808,18 @@
              return string.format("#%02X%02X%02X", r, g, b)
 			end
 
-			task.spawn(function()
+			local player = game:GetService("Players").LocalPlayer
+            task.spawn(function()
                 while task.wait(1) do 
                     local hexColor = color3ToHex(themes.preset.accent)
-                    
-                    -- 2. Grab the formatted time string (without the "DankHaxx" prefix)
                     local timeString = os.date('%b %d %Y - %H:%M:%S')
                     
-                    -- 3. Combine them using string.format, wrapping "Haxx" in the color tag
-                    local richTextString = string.format("Dank<font color='%s'>Haxx</font> - %s", hexColor, timeString)
+                    -- Get the player's ping in milliseconds and round it to a whole number
+                    local ping = math.floor(player:GetNetworkPing() * 1000)
                     
-                    -- 4. Update the watermark
+                    -- Combine the hex color, time, and ping into the final string
+                    local richTextString = string.format("Dank<font color='%s'>Haxx</font> - %s - Ping: %sms", hexColor, timeString, tostring(ping))
+                    
                     watermark.change_text(richTextString)
                 end 
             end)
