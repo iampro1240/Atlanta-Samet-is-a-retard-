@@ -2027,7 +2027,7 @@
             local currentTime = os.date('%b %d %Y - %H:%M:%S')
                     
             -- Removed the extra '%s' and 'cfg.text' parameter
-            local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", hex("#2C2C2C"), ping, currentTime)
+            local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", tostring(hex("#2C2C2C")), ping, currentTime)
             watermark.change_text(newText)
            end
 		end)
