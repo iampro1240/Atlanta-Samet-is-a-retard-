@@ -1829,7 +1829,7 @@
                     -- Removed the extra '%s' and 'cfg.text' parameter
                     local newText = string.format("  [Dank<font color='%s'>Haxx</font>] %dms - %s  ", accentHex, ping, currentTime)
                     
-                    watermark:set(newText)
+                    watermark.change_text(newText)
                 end
             end)
 
