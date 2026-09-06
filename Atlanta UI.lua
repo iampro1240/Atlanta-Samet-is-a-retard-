@@ -1800,38 +1800,13 @@
 				image = "rbxassetid://115194686863276",
 			})
 
+			local watermark = library:watermark({default = os.date('NoobHaxx |  - %b %d %Y - %H:%M:%S')})  
 
-			local Stats = game:GetService("Stats")
-            local function color3ToHex(color)
-                local r = math.floor(color.R * 255)
-                local g = math.floor(color.G * 255)
-                local b = math.floor(color.B * 255)
-                return string.format("#%02X%02X%02X", r, g, b)
-            end
-            
-
-            local accentHex = color3ToHex(themes.preset.accent)
-            
-           
-            local watermark = library:watermark({
-                default = string.format("  [Dank<font color='%s'>Haxx</font>] Loading...  ", accentHex)
-            })
-            
-            task.spawn(function()
-                while task.wait(1) do
-                    local ping = 0
-                    pcall(function()
-                        ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
-                    end)
-                    
-                    local currentTime = os.date('%b %d %Y - %H:%M:%S')
-                    
-                    -- Removed the extra '%s' and 'cfg.text' parameter
-                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", tostring(hex("#1F1F1F")), ping, currentTime)
-
-                    watermark.change_text(newText)
-                end
-            end)
+			task.spawn(function()
+				while task.wait(1) do 
+					watermark.change_text(os.date('NoobHaxx - %b %d %Y - %H:%M:%S'))
+				end 
+			end) 
 
 			local items = style.items
 
@@ -2097,8 +2072,7 @@
 			BorderSizePixel = 0,
 			AutomaticSize = Enum.AutomaticSize.X,
 			TextSize = 10,
-			BackgroundColor3 = rgb(255, 255, 255),
-			RichText = true
+			BackgroundColor3 = rgb(255, 255, 255)
 		})
 		
 		library:create("UIStroke", {
@@ -2636,7 +2610,6 @@
     				RichText = true,
     				Text = string.format("  [Noob<font color='%s'>Haxx</font>] %s  ", color3ToHex(themes.preset.accent), cfg.text)
 			    })
-				
 		
 				local accent = library:create("Frame", {
 					Parent = watermark_outline,
