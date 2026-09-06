@@ -1810,10 +1810,7 @@
 
 			task.spawn(function()
                 while task.wait(1) do 
-					local theme = library.flags["UITheme"]
-					local themeColor = themes[theme].accent
-                    -- 1. Convert your accent color to hex
-                    local hexColor = color3ToHex(themeColor)
+                    local hexColor = color3ToHex(themes.preset.accent)
                     
                     -- 2. Grab the formatted time string (without the "DankHaxx" prefix)
                     local timeString = os.date('%b %d %Y - %H:%M:%S')
