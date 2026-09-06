@@ -1800,13 +1800,31 @@
 				image = "rbxassetid://115194686863276",
 			})
 
-			local watermark = library:watermark({default = os.date('NoobHaxx |  - %b %d %Y - %H:%M:%S')})  
+			local watermark = library:watermark({default = os.date('DankHaxx |  - %b %d %Y - %H:%M:%S')})  
+			local function color3ToHex(color)
+              local r = math.floor(color.R * 255)
+              local g = math.floor(color.G * 255)
+              local b = math.floor(color.B * 255)
+             return string.format("#%02X%02X%02X", r, g, b)
+			end
 
 			task.spawn(function()
-				while task.wait(1) do 
-					watermark.change_text(os.date('NoobHaxx - %b %d %Y - %H:%M:%S'))
-				end 
-			end) 
+                while task.wait(1) do 
+					local theme = library.flags["UITheme"]
+					local themeColor = themes[theme].accent
+                    -- 1. Convert your accent color to hex
+                    local hexColor = color3ToHex(themeColor)
+                    
+                    -- 2. Grab the formatted time string (without the "DankHaxx" prefix)
+                    local timeString = os.date('%b %d %Y - %H:%M:%S')
+                    
+                    -- 3. Combine them using string.format, wrapping "Haxx" in the color tag
+                    local richTextString = string.format("Dank<font color='%s'>Haxx</font> - %s", hexColor, timeString)
+                    
+                    -- 4. Update the watermark
+                    watermark.change_text(richTextString)
+                end 
+            end)
 
 			local items = style.items
 
@@ -2608,7 +2626,7 @@
     				TextSize = 10,
     				BackgroundColor3 = rgb(255, 255, 255),
     				RichText = true,
-    				Text = string.format("  [Noob<font color='%s'>Haxx</font>] %s  ", color3ToHex(themes.preset.accent), cfg.text)
+    				Text = string.format("  [Dank<font color='%s'>Haxx</font>] %s  ", color3ToHex(themes.preset.accent), cfg.text)
 			    })
 		
 				local accent = library:create("Frame", {
