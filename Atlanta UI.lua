@@ -2087,7 +2087,8 @@
 			BorderSizePixel = 0,
 			AutomaticSize = Enum.AutomaticSize.X,
 			TextSize = 10,
-			BackgroundColor3 = rgb(255, 255, 255)
+			BackgroundColor3 = rgb(255, 255, 255),
+			RichText = true
 		})
 		
 		library:create("UIStroke", {
@@ -3611,7 +3612,6 @@
 
 		return setmetatable(cfg, library) 
 	end 
-
 
 	function library:options(options)
     	local parent = self.right_holder
