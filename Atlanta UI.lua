@@ -1819,6 +1819,10 @@
             
             task.spawn(function()
                 while task.wait(1) do
+					if library.flags["accent"] == nil or library.flags["accent"].Color == nil then
+						return
+					end
+
                     local ping = 0
                     pcall(function()
                         ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
@@ -1827,7 +1831,7 @@
                     local currentTime = os.date('%b %d %Y - %H:%M:%S')
                     
                     -- Removed the extra '%s' and 'cfg.text' parameter
-                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", library.flags["accent"].color, ping, currentTime)
+                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", library.flags["accent"].Color, ping, currentTime)
 
                     watermark.change_text(newText)
                 end
