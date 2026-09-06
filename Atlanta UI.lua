@@ -1810,7 +1810,7 @@
 
 			local player = game:GetService("Players").LocalPlayer
             task.spawn(function()
-                while task.wait(1) do 
+                while task.wait() do 
                     local hexColor = color3ToHex(themes.preset.accent)
                     local timeString = os.date('%b %d %Y - %H:%M:%S')
                     
