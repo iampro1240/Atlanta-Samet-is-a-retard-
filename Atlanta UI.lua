@@ -1809,28 +1809,26 @@
                 return string.format("#%02X%02X%02X", r, g, b)
             end
             
+
             local accentHex = color3ToHex(themes.preset.accent)
             
-            -- Initial placeholder setup
+           
             local watermark = library:watermark({
                 default = string.format("  [Dank<font color='%s'>Haxx</font>] Loading...  ", accentHex)
             })
             
             task.spawn(function()
                 while task.wait(1) do
-                    -- 1. Retrieve and round the current ping
                     local ping = 0
                     pcall(function()
                         ping = math.round(Stats.Network.ServerStatsItem["Data Ping"]:GetValue())
                     end)
                     
-                    -- 2. Get the current time
                     local currentTime = os.date('%b %d %Y - %H:%M:%S')
                     
-                    -- 3. Format the string with the new %d parameter for the ping integer
-                    local newText = string.format("  [%s<font color='%s'>%s</font>] %s - %dms - %s  ", accentHex, "Dank", "Haxx", ping, currentTime)
+                    -- Removed the extra '%s' and 'cfg.text' parameter
+                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] %dms - %s  ", accentHex, ping, currentTime)
                     
-                    -- 4. Update the watermark (adjust ':set' to your library's actual update function)
                     watermark:set(newText)
                 end
             end)
