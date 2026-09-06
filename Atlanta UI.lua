@@ -1827,8 +1827,8 @@
                     local currentTime = os.date('%b %d %Y - %H:%M:%S')
                     
                     -- Removed the extra '%s' and 'cfg.text' parameter
-                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] %dms - %s  ", accentHex, ping, currentTime)
-                    
+                    local newText = string.format("  [Dank<font color='%s'>Haxx</font>] Ping - %dms - %s  ", themes[library.flags["UITheme"]]["accent"], ping, currentTime)
+					
                     watermark.change_text(newText)
                 end
             end)
