@@ -110,6 +110,7 @@
 			["text_outline"] = rgb(0, 0, 0),
 			["glow"] = hex("#6078BE"), 
 			["risky"] = hex("#FF4040"),
+			["warning"] = hex("#ffa126"),
 		},
 
 		Fatality = {
@@ -122,6 +123,7 @@
 			["text_outline"] = hex("#0A0A0A"),
 			["glow"] = hex("#F00F50"), 
 			["risky"] = hex("#F00F70"),
+			["warning"] = hex("#ffa126"),
 		},
 
 		Onetap = {
@@ -134,6 +136,7 @@
 			["text_outline"] = hex("#34353C"),
 			["glow"] = hex("#DFBC71"), 
 			["risky"] = hex("#e4cb95"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -147,6 +150,7 @@
 			["text_outline"] = hex("#34353C"),
 			["glow"] = hex("#9A5769"), 
 			["risky"] = hex("#9c6b78"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -160,6 +164,7 @@
 			["text_outline"] = hex("#4A5761"),
 			["glow"] = hex("#03A8F5"), 
 			["risky"] = hex("#ff6262"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -173,6 +178,7 @@
 			["text_outline"] = hex("#030303"),
 			["glow"] = hex("#9CBB43"), 
 			["risky"] = hex("#ff6262"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -186,6 +192,7 @@
 			["text_outline"] = hex("#030303"),
 			["glow"] = hex("#B83352"), 
 			["risky"] = hex("#ff3737"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -199,6 +206,7 @@
 			["text_outline"] = hex("#34353C"),
 			["glow"] = hex("#C697E9"), 
 			["risky"] = hex("#ff3c3c"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -212,6 +220,7 @@
 			["text_outline"] = hex("#000000"),
 			["glow"] = hex("#ED8849"), 
 			["risky"] = hex("#ff3e3e"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -225,6 +234,7 @@
 			["text_outline"] = hex("#000000"),
 			["glow"] = hex("#6A388B"), 
 			["risky"] = hex("#ff3e3e"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -238,6 +248,7 @@
 			["text_outline"] = hex("#000000"),
 			["glow"] = hex("#AF6D54"), 
 			["risky"] = hex("#762D30"),
+			["warning"] = hex("#ffa126"),
 		},
 
 
@@ -269,6 +280,9 @@
 				["ImageColor3"] = {}, 	
 			}, 
 			["risky"] = {
+				["TextColor3"] = {},
+			},
+			["warning"] = {
 				["TextColor3"] = {},
 			},
 			["high_contrast"] = {
@@ -1870,6 +1884,10 @@
 			:colorpicker({name = "Risky", color = themes.preset.risky, callback = function(color, alpha)
 				library:update_theme("risky", color)
 			end, flag = "Risky"})
+			section:label({name = "Warning"})
+			:colorpicker({name = "Warning", color = themes.preset.warning, callback = function(color, alpha)
+				library:update_theme("warning", color)
+			end, flag = "Warning"})
 			section:label({name = "Glow"})
 			:colorpicker({name = "Glow", color = themes.preset.glow, callback = function(color, alpha)
 				library:update_theme("glow", color)
@@ -1891,6 +1909,7 @@
 
 				library:update_theme("glow", themes[argument]["glow"])
 				library:update_theme("risky", themes[argument]["risky"])
+				library:update_theme("warning", themes[argument]["warning"])
 				library:update_theme("text", themes[argument]["text"])
 			end
 
@@ -3898,6 +3917,7 @@
     			visible = options.visible or true,
     			tooltip = options.tooltip or nil,
     			risky = options.risky or false,
+				warning = options.warning or false,
     		}
     
     		-- instances
@@ -3975,9 +3995,15 @@
     				LineJoinMode = Enum.LineJoinMode.Miter
     			})
     
+
     			if cfg.risky then
     				library:apply_theme(text, "risky", "TextColor3")
     			end
+
+				if cfg.warning then
+    				library:apply_theme(text, "warning", "TextColor3")
+    			end
+			
     		
     			library:create("UIListLayout", {
     				Parent = left_components,
